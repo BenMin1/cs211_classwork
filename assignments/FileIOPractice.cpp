@@ -1,3 +1,7 @@
+/*
+Instructions can be found at: https://venus.cs.qc.cuny.edu/~ctse/211/slides/211_lab03_fileIO.pdf
+*/
+
 #include <iostream>
 #include <fstream>
 using namespace std;
