@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Returns true if the queen in column c is ok
+bool ok(int q[], int c) {
+   for(int i = 0; i < c; i++){
+     if(q[i] == q[c]) return 0; //horizontal test
+     if(c - i == abs(q[c]-q[i])) return 0; //both diagonal tests
+   }
+  return 1;
+}
+
+void print(int q[]) {
+  static int numSolutions = 0;
+  cout << "Solution #" << ++numSolutions << ": " << endl;
+  for(int i = 0; i < 8; i++){
+    for(int x = 0; x < 8; x++){
+      cout << " ";
+      if(q[i] != x) cout << "0";         //if a queens is not in that position print a 0
+      else if (q[i] == x) cout << "1";   //if a queen is in that position print 1
+    }
+    cout << endl;
+  }
+  cout << "\n";
+}
+
+int main() {
+  int q[8] = {};   // Initialize the array to 0.
+  int c = 0;  // Start in the 1st row, 1st column
+  
+  while (c >= 0) { // End the loop if you backtrack from the first column
+    if(c == 7){   // If you have passed the last column,
+      print(q);  // Call the print function and backtrack
+      c--;
+    }
+    else{        // Otherwise, move to one before the first row
+      c++;
+      q[c] = -1; 
+    }
+    while (c >= 0) {
+      q[c] ++;          // Move to the next row
+      if(q[c] > 7) c--;  // If you have passed the end of the column, backtrack
+      else if(ok(q, c)){          // Otherwise, call the ok function.
+        break;  //If it returns true, go back to the beginning of the outer loop.
+      }
+    }  
+  }
+  return 0;
+}
