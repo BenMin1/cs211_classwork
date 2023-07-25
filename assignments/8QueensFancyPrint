@@ -1,0 +1,92 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Returns true if the queen in column c is ok
+bool ok(int q[], int c) {
+   for(int i = 0; i < c; i++){
+     if(q[i] == q[c]) return 0; //horizontal test
+     if(c - i == abs(q[c]-q[i])) return 0; //both diagonal tests
+   }
+  return 1;
+}
+
+void print(int q[]) {
+  static int numSolutions = 0;
+  cout << "Solution #" << ++numSolutions << ": " << endl;
+  typedef char fancyChar[5][5];
+  fancyChar b, w;
+  
+  for(int i = 0; i < 5;i++){
+    for(int x = 0; x < 5; x++){
+      b[i][x] = '#';
+      w[i][x] = ' ';
+    }
+  }
+
+  static fancyChar wq = {
+  {'#',' ','#',' ', '#'},
+  {'#',' ','#',' ', '#'},
+  {'#','#','#','#','#'},
+  {'#','#','#','#','#'},
+  {'#','#','#','#','#'}};
+
+  static fancyChar bq = {
+  {' ','#',' ','#',' '},
+  {' ','#',' ','#',' '},
+  {' ',' ',' ',' ',' '},
+  {' ',' ',' ',' ',' '},
+  {' ',' ',' ',' ',' '}};
+
+  fancyChar *board[8][8] = {};
+  
+
+  for(int i = 0; i < 8; i++){
+    for(int x = 0; x < 8; x++){
+        if((i + x) % 2 == 0) board[i][x] = &w;
+        else board[i][x] = &b;
+    }
+  }
+
+  for(int i = 0; i < 8; i++){
+    if((q[i] + i) % 2 == 0) board[q[i]][i] = &bq;
+    else board[q[i]][i] = &wq;
+  }
+
+  for(int i = 0; i < 8; i++)
+    for(int j = 0; j < 5; j++){
+//      cout << "|";
+      for(int k = 0; k < 8; k++)
+        for(int l = 0; l < 5; l++)
+          cout << (*board[i][k])[j][l];
+      cout << endl;
+  }
+  cout << endl;
+  for(int i = 0; i < 40; i++){
+    cout << "-";
+  }
+}
+
+int main() {
+  int q[8] = {};   // Initialize the array to 0.
+  int c = 0;  // Start in the 1st row, 1st column
+  
+  while (c >= 0) { // End the loop if you backtrack from the first column
+    if(c == 7){   // If you have passed the last column,
+      print(q);  // Call the print function and backtrack
+      c--;
+    }
+    else{        // Otherwise, move to one before the first row
+      c++;
+      q[c] = -1; 
+    }
+    while (c >= 0) {
+      q[c] ++;          // Move to the next row
+      if(q[c] > 7) c--;  // If you have passed the end of the column, backtrack
+      else if(ok(q, c)){          // Otherwise, call the ok function.
+        break;  //If it returns true, go back to the beginning of the outer loop.
+      }
+    }  
+  }
+  return 0;
+}
