@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int remove3double5(int x){
+  if(x == 0) return 0;  //base case
+  if(x%10 == 3) return remove3double5(x/10);  //if 3 ignore
+  if(x%10 == 5) return 55 + 100 * remove3double5(x/10); //if 5 double
+  else return (x%10) + 10 * remove3double5(x/10);  //else return that int
+}
+
+int main(){
+	cout << remove3double5(333) << endl;  // Print 0
+	cout << remove3double5(533) << endl;  // Print 55
+	cout << remove3double5(1236) << endl; // Print 126
+	cout << remove3double5(535) << endl;  // Print 5555
+	cout << remove3double5(789) << endl;  // Print 789
+  return 0;
+}
