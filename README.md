@@ -8,3 +8,5 @@ Contains the following
   -In-class assignments
 
   -Review and practice assignments
+
+  Some of the code has been modified with permission
